@@ -1,122 +1,141 @@
-import React from "react";
-import cx from "classnames";
-import PropTypes from "prop-types";
-import { Switch, Route, Redirect } from "react-router-dom";
+/* eslint-disable react/jsx-props-no-spreading */
+import React from "react"
+import cx from "classnames"
+import PropTypes from "prop-types"
+import { Switch, Route, Redirect } from "react-router-dom"
 // creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
-import "perfect-scrollbar/css/perfect-scrollbar.css";
+import PerfectScrollbar from "perfect-scrollbar"
+import "perfect-scrollbar/css/perfect-scrollbar.css"
 
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from "@material-ui/core/styles/withStyles"
 
 // core components
-import Header from "../Components/Header/Header.jsx";
-// import Footer from "../Components/Footer/Footer.jsx";
-import Sidebar from "../Components/Sidebar/Sidebar.jsx";
+import Header from "../Components/Header/Header"
+// import Footer from "../Components/Footer/Footer";
+import Sidebar from "../Components/Sidebar/Sidebar"
 
-import dashboardRoutes from "../routes/dashboard.jsx";
+import dashboardRoutes from "../routes/dashboard"
 
-import appStyle from "../Style/Layout/dashboardStyle.jsx";
-import andela from "../Style/img/andl.jpeg";
+import appStyle from "../Style/Layout/dashboardStyle"
+import andela from "../Style/img/andl.jpeg"
 
 const switchRoutes = (
   <Switch>
-    {dashboardRoutes.map((prop, key) => {
+    {dashboardRoutes.map(prop => {
       if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+        return <Redirect from={prop.path} to={prop.pathTo} key={prop.path} />
       if (prop.collapse)
-        return prop.views.map((prop, key) => {
+        return prop.views.map(vprop => {
           return (
-            <Route path={prop.path} component={prop.component} key={key} />
-          );
-        });
-      return <Route path={prop.path} component={prop.component} key={key} />;
+            <Route
+              path={vprop.path}
+              component={vprop.component}
+              key={vprop.path}
+            />
+          )
+        })
+      return (
+        <Route path={prop.path} component={prop.component} key={prop.path} />
+      )
     })}
   </Switch>
-);
+)
 
-var ps;
+let ps
 
 class Dashboard extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       mobileOpen: false,
       miniActive: false,
       color: "blue",
-      bgColor: "black",
-      hasImage: true,
-      fixedClasses: "dropdown show"
-    };
-    this.resizeFunction = this.resizeFunction.bind(this);
+      bgColor: "black"
+    }
+    this.resizeFunction = this.resizeFunction.bind(this)
+    this.sidebarMinimize = this.sidebarMinimize.bind(this)
   }
 
-
-  handleDrawerToggle = () => {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
-  };
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(this.refs.mainPanel, {
+      ps = new PerfectScrollbar(this.mainPanel, {
         suppressScrollX: true,
         suppressScrollY: false
-      });
-      document.body.style.overflow = "hidden";
+      })
+      document.body.style.overflow = "hidden"
     }
-    window.addEventListener("resize", this.resizeFunction);
+    window.addEventListener("resize", this.resizeFunction)
   }
-  componentWillUnmount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps.destroy();
-    }
-    window.removeEventListener("resize", this.resizeFunction);
-  }
+
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
-      this.refs.mainPanel.scrollTop = 0;
-      if (this.state.mobileOpen) {
-        this.setState({ mobileOpen: false });
-      }
+      this.mainPanel.scrollTop = 0
     }
   }
-  handleDrawerToggle = () => {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
-  };
-  sidebarMinimize() {
-    this.setState({ miniActive: !this.state.miniActive });
+
+  componentWillUnmount() {
+    if (navigator.platform.indexOf("Win") > -1) {
+      ps.destroy()
+    }
+    window.removeEventListener("resize", this.resizeFunction)
   }
+
+  handleDrawerToggle = () => {
+    const { mobileOpen } = this.state
+
+    this.setState({ mobileOpen: !mobileOpen })
+  }
+
+  handleDrawerToggle = () => {
+    const { mobileOpen } = this.state
+    this.setState({ mobileOpen: !mobileOpen })
+  }
+
+  sidebarMinimize() {
+    const { miniActive } = this.state
+    this.setState({ miniActive: !miniActive })
+  }
+
   resizeFunction() {
     if (window.innerWidth >= 960) {
-      this.setState({ mobileOpen: false });
+      this.setState({ mobileOpen: false })
     }
   }
+
   render() {
-    const { classes, ...rest } = this.props;
-    const mainPanel =
-      classes.mainPanel +
-      " " +
-      cx({
-        [classes.mainPanelSidebarMini]: this.state.miniActive,
-        [classes.mainPanelWithPerfectScrollbar]:
-          navigator.platform.indexOf("Win") > -1
-      });
+    const { classes, ...rest } = this.props
+
+    const { mobileOpen, bgColor, color, miniActive } = this.state
+
+    const mainPanel = `${classes.mainPanel} ${cx({
+      [classes.mainPanelSidebarMini]: miniActive,
+      [classes.mainPanelWithPerfectScrollbar]:
+        navigator.platform.indexOf("Win") > -1
+    })}`
+
     return (
       <div className={classes.wrapper}>
         <Sidebar
           routes={dashboardRoutes}
-          logoText={"Teamwork"}
+          logoText="Teamwork"
           logo={andela}
           handleDrawerToggle={this.handleDrawerToggle}
-          open={this.state.mobileOpen}
-          color={this.state.color}
-          bgColor={this.state.bgColor}
-          miniActive={this.state.miniActive}
+          open={mobileOpen}
+          color={color}
+          bgColor={bgColor}
+          miniActive={miniActive}
           {...rest}
         />
-        <div className={mainPanel} ref="mainPanel">
+        <div
+          className={mainPanel}
+          ref={ref => {
+            this.mainPanel = ref
+          }}
+        >
           <Header
-            sidebarMinimize={this.sidebarMinimize.bind(this)}
-            miniActive={this.state.miniActive}
+            sidebarMinimize={this.sidebarMinimize}
+            miniActive={miniActive}
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
@@ -126,12 +145,12 @@ class Dashboard extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
 Dashboard.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+  classes: PropTypes.oneOfType([PropTypes.object]).isRequired
+}
 
-export default withStyles(appStyle)(Dashboard);
+export default withStyles(appStyle)(Dashboard)
