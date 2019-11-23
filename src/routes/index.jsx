@@ -3,7 +3,7 @@ import Dashboard from "../Layouts/Dashboard"
 
 const indexRoutes = [
   { path: "/pages", component: Pages },
-  { path: "/", component: Dashboard }
+  { path: "/", type: "private", component: Dashboard }
 ]
 
 export default indexRoutes

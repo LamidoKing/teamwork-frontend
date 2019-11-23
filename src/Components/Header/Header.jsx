@@ -1,57 +1,57 @@
-import React from "react";
-import PropTypes from "prop-types";
-import cx from "classnames";
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/require-default-props */
+import React from "react"
+import PropTypes from "prop-types"
+import cx from "classnames"
 
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Hidden from "@material-ui/core/Hidden";
+import withStyles from "@material-ui/core/styles/withStyles"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import Hidden from "@material-ui/core/Hidden"
 
 // material-ui icons
-import Menu from "@material-ui/icons/Menu";
-import MoreVert from "@material-ui/icons/MoreVert";
-import ViewList from "@material-ui/icons/ViewList";
+import Menu from "@material-ui/icons/Menu"
+import MoreVert from "@material-ui/icons/MoreVert"
+import ViewList from "@material-ui/icons/ViewList"
 
 // core components
-import HeaderLinks from "./HeaderLinks";
-import Button from "../CustomButtons/Button.jsx";
+import HeaderLinks from "./HeaderLinks"
+import Button from "../CustomButtons/Button"
 
-import headerStyle from "../../Style/Components/headerStyle.jsx";
+import headerStyle from "../../Style/Components/headerStyle"
 
 function Header({ ...props }) {
   function makeBrand() {
-    var name;
-    props.routes.map((prop, key) => {
+    let name
+    props.routes.map(prop => {
       if (prop.collapse) {
-        prop.views.map((prop, key) => {
-          if (prop.path === props.location.pathname) {
-            name = prop.name;
+        prop.views.map(prop1 => {
+          if (prop1.path === props.location.pathname) {
+            name = prop1.name
           }
-          return null;
-        });
+          return null
+        })
       }
       if (prop.path === props.location.pathname) {
-        name = prop.name;
+        name = prop.name
       }
-      return null;
-    });
+      return null
+    })
     if (name) {
-      return name;
-    } else {
-      return "Default Brand Name";
+      return name
     }
+    return "Default Brand Name"
   }
-  const { classes, color, rtlActive } = props;
+  const { classes, color, rtlActive } = props
   const appBarClasses = cx({
-    [" " + classes[color]]: color
-  });
-  const sidebarMinimize =
-    classes.sidebarMinimize +
-    " " +
-    cx({
-      [classes.sidebarMinimizeRTL]: rtlActive
-    });
+    [` ${classes[color]}`]: color
+  })
+  const sidebarMinimize = `${classes.sidebarMinimize} ${cx({
+    [classes.sidebarMinimizeRTL]: rtlActive
+  })}`
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
@@ -100,18 +100,13 @@ function Header({ ...props }) {
         </Hidden>
       </Toolbar>
     </AppBar>
-  );
+  )
 }
 
 Header.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"]),
   rtlActive: PropTypes.bool
-};
+}
 
-export default withStyles(headerStyle)(Header);
-
-
-
-// WEBPACK FOOTER //
-// ./src/components/Header/Header.jsx
+export default withStyles(headerStyle)(Header)

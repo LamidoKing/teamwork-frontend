@@ -1,14 +1,18 @@
-import React from "react";
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/require-default-props */
+import React from "react"
 // nodejs library that concatenates classes
-import classNames from "classnames";
+import classNames from "classnames"
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // material-ui components
-import withStyles from "@material-ui/core/styles/withStyles";
-import Button from "@material-ui/core/Button";
+import withStyles from "@material-ui/core/styles/withStyles"
+import Button from "@material-ui/core/Button"
 
-import buttonStyle from "../../Style/Components/buttonStyle.jsx";
+import buttonStyle from "../../Style/Components/buttonStyle"
+
 function RegularButton({ ...props }) {
   const {
     classes,
@@ -25,7 +29,7 @@ function RegularButton({ ...props }) {
     className,
     muiClasses,
     ...rest
-  } = props;
+  } = props
   const btnClasses = classNames({
     [classes.button]: true,
     [classes[size]]: size,
@@ -38,16 +42,16 @@ function RegularButton({ ...props }) {
     [classes.link]: link,
     [classes.justIcon]: justIcon,
     [className]: className
-  });
+  })
   return (
     <Button {...rest} classes={muiClasses} className={btnClasses}>
       {children}
     </Button>
-  );
+  )
 }
 
 RegularButton.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
   color: PropTypes.oneOf([
     "primary",
     "info",
@@ -79,12 +83,7 @@ RegularButton.propTypes = {
   justIcon: PropTypes.bool,
   className: PropTypes.string,
   // use this to pass the classes props from Material-UI
-  muiClasses: PropTypes.object
-};
+  muiClasses: PropTypes.oneOfType([PropTypes.object])
+}
 
-export default withStyles(buttonStyle)(RegularButton);
-
-
-
-// WEBPACK FOOTER //
-// ./src/components/CustomButtons/Button.jsx
+export default withStyles(buttonStyle)(RegularButton)

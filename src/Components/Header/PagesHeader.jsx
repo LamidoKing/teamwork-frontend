@@ -1,94 +1,80 @@
-import React from "react";
-import cx from "classnames";
-import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+/* eslint-disable react/no-did-update-set-state */
+/* eslint-disable react/sort-comp */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/require-default-props */
+import React from "react"
+import cx from "classnames"
+import PropTypes from "prop-types"
+import { NavLink } from "react-router-dom"
 
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Hidden from "@material-ui/core/Hidden";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import withStyles from "@material-ui/core/styles/withStyles"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import Hidden from "@material-ui/core/Hidden"
+import Drawer from "@material-ui/core/Drawer"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemIcon from "@material-ui/core/ListItemIcon"
+import ListItemText from "@material-ui/core/ListItemText"
 
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
-import Menu from "@material-ui/icons/Menu";
+import Dashboard from "@material-ui/icons/Dashboard"
+import Menu from "@material-ui/icons/Menu"
 
 // core components
-import Button from "../CustomButtons/Button";
+import Button from "../CustomButtons/Button"
 
-import pagesRoutes from "../../routes/pages.jsx";
+// import pagesRoutes from "../../routes/pages";
 
-import pagesHeaderStyle from "../../Style/Components/pagesHeaderStyle.jsx";
+import pagesHeaderStyle from "../../Style/Components/pagesHeaderStyle"
 
 class PagesHeader extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       open: false
-    };
-  }
-  handleDrawerToggle = () => {
-    this.setState({ open: !this.state.open });
-  };
-  // verifies if routeName is the one active (in browser input)
-  activeRoute(routeName) {
-    return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
-  }
-  componentDidUpdate(e) {
-    if (e.history.location.pathname !== e.location.pathname) {
-      this.setState({ open: false });
     }
   }
+
+  handleDrawerToggle = () => {
+    this.setState(state => ({ open: !state.open }))
+  }
+
+  // verifies if routeName is the one active (in browser input)
+  activeRoute(routeName) {
+    return this.props.location.pathname.indexOf(routeName) > -1
+  }
+
+  componentDidUpdate(e) {
+    if (e.history.location.pathname !== e.location.pathname) {
+      this.setState({ open: false })
+    }
+  }
+
   render() {
-    const { classes, color } = this.props;
+    const { classes, color } = this.props
     const appBarClasses = cx({
-      [" " + classes[color]]: color
-    });
-    var list = (
+      [` ${classes[color]}`]: color
+    })
+    const list = (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/dashboard"} className={classes.navLink}>
+          <NavLink to="/dashboard" className={classes.navLink}>
             <ListItemIcon className={classes.listItemIcon}>
               <Dashboard />
             </ListItemIcon>
             <ListItemText
-              primary={"Dashboard"}
-              disableTypography={true}
+              primary="Dashboard"
+              disableTypography
               className={classes.listItemText}
             />
           </NavLink>
         </ListItem>
-        {pagesRoutes.map((prop, key) => {
-          if (prop.redirect) {
-            return null;
-          }
-          const navLink =
-            classes.navLink +
-            cx({
-              [" " + classes.navLinkActive]: this.activeRoute(prop.path)
-            });
-          return (
-            <ListItem key={key} className={classes.listItem}>
-              <NavLink to={prop.path} className={navLink}>
-                <ListItemIcon className={classes.listItemIcon}>
-                  <prop.icon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={prop.short}
-                  disableTypography={true}
-                  className={classes.listItemText}
-                />
-              </NavLink>
-            </ListItem>
-          );
-        })}
       </List>
-    );
+    )
     return (
       <AppBar position="static" className={classes.appBar + appBarClasses}>
         <Toolbar className={classes.container}>
@@ -122,7 +108,7 @@ class PagesHeader extends React.Component {
             <Hidden mdUp>
               <Drawer
                 variant="temporary"
-                anchor={"right"}
+                anchor="right"
                 open={this.state.open}
                 classes={{
                   paper: classes.drawerPaper
@@ -138,18 +124,13 @@ class PagesHeader extends React.Component {
           </Hidden>
         </Toolbar>
       </AppBar>
-    );
+    )
   }
 }
 
 PagesHeader.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"])
-};
+}
 
-export default withStyles(pagesHeaderStyle)(PagesHeader);
-
-
-
-// WEBPACK FOOTER //
-// ./src/components/Header/PagesHeader.jsx
+export default withStyles(pagesHeaderStyle)(PagesHeader)

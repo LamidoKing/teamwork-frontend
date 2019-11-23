@@ -1,47 +1,66 @@
-import React from "react";
-import classNames from "classnames";
-import PropTypes from "prop-types";
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/require-default-props */
+import React from "react"
+import classNames from "classnames"
+import PropTypes from "prop-types"
 // import { Manager, Target, Popper } from "react-popper";
 
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Paper from "@material-ui/core/Paper";
-import Grow from "@material-ui/core/Grow";
-import Hidden from "@material-ui/core/Hidden";
-import Popper from "@material-ui/core/Popper";
+import withStyles from "@material-ui/core/styles/withStyles"
+import MenuItem from "@material-ui/core/MenuItem"
+import MenuList from "@material-ui/core/MenuList"
+import ClickAwayListener from "@material-ui/core/ClickAwayListener"
+import Paper from "@material-ui/core/Paper"
+import Grow from "@material-ui/core/Grow"
+import Hidden from "@material-ui/core/Hidden"
+import Popper from "@material-ui/core/Popper"
 
 // @material-ui/icons
-import Person from "@material-ui/icons/Person";
-import Button from "../CustomButtons/Button.jsx";
+import Person from "@material-ui/icons/Person"
+import Button from "../CustomButtons/Button"
+import { AuthToken, history } from "../../Utils"
 
-import headerLinksStyle from "../../Style/Components/headerLinksStyle";
+import headerLinksStyle from "../../Style/Components/headerLinksStyle"
 
 class HeaderLinks extends React.Component {
-  state = {
-    open: false
-  };
-  handleClick = () => {
-    this.setState({ open: !this.state.open });
-  };
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  render() {
-    const { classes } = this.props;
-    const { open } = this.state;
+  constructor(props) {
+    super(props)
 
-    const dropdownItem = classNames(
-      classes.dropdownItem,
-      classes.primaryHover
-    );
+    this.state = {
+      open: false
+    }
+  }
+
+  handleClick = () => {
+    this.setState({ open: !this.state.open })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
+  }
+
+  handleLogout = () => {
+    AuthToken.logout()
+    history.push("/pages/login-page")
+    window.location.reload()
+  }
+
+  render() {
+    const { classes } = this.props
+    const { open } = this.state
+
+    const dropdownItem = classNames(classes.dropdownItem, classes.primaryHover)
     const managerClasses = classNames({
       [classes.managerClasses]: true
-    });
+    })
     return (
-      <div >
+      <div>
         <div className={managerClasses}>
           <Button
             color="transparent"
@@ -52,14 +71,10 @@ class HeaderLinks extends React.Component {
             onClick={this.handleClick}
             className={classes.buttonLink}
             buttonRef={node => {
-              this.anchorEl = node;
+              this.anchorEl = node
             }}
           >
-            <Person
-              className={
-                classes.headerLinksSvg + classes.links
-              }
-            />
+            <Person className={classes.headerLinksSvg + classes.links} />
             <Hidden mdUp implementation="css">
               <span onClick={this.handleClick} className={classes.linkText}>
                 User
@@ -88,7 +103,7 @@ class HeaderLinks extends React.Component {
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList role="menu">
                       <MenuItem
-                        onClick={this.handleClose}
+                        onClick={this.handleLogout}
                         className={dropdownItem}
                       >
                         Logout
@@ -107,13 +122,13 @@ class HeaderLinks extends React.Component {
           </Popper>
         </div>
       </div>
-    );
+    )
   }
 }
 
 HeaderLinks.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
   rtlActive: PropTypes.bool
-};
+}
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+export default withStyles(headerLinksStyle)(HeaderLinks)

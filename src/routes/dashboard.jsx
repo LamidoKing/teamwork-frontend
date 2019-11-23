@@ -1,14 +1,16 @@
-import Fingerprint from "@material-ui/icons/Fingerprint";
+import Fingerprint from "@material-ui/icons/Fingerprint"
+import pages from "./pages"
 
-var dashRoutes = [
+const dashRoutes = [
+  ...pages,
   {
     path: "/",
     name: "Page",
     short: "Pages",
     mini: "LP",
     icon: Fingerprint,
-    component: ''
+    component: ""
   },
   { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
-];
-export default dashRoutes;
+]
+export default dashRoutes

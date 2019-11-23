@@ -10,7 +10,9 @@ const log = createLogger({
 })
 
 const composeEnhancers = composeWithDevTools({})
+
 const state = {}
+
 export default (initialState = state) => {
   const store = createStore(
     reducer(),
