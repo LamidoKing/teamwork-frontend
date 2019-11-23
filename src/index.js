@@ -1,8 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { Router } from "react-router-dom"
-import { createBrowserHistory } from "history"
 import { Provider } from "react-redux"
+import { history } from "./Utils"
 import "./Style/index.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
@@ -12,7 +12,7 @@ const initialState = window._INITIAL_STATE_
 
 const store = createStore(initialState)
 
-const hist = createBrowserHistory()
+const hist = history
 
 ReactDOM.render(
   <Provider store={store}>

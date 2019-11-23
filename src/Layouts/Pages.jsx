@@ -8,8 +8,6 @@ import withStyles from "@material-ui/core/styles/withStyles"
 
 // core components
 import PagesHeader from "../Components/Header/PagesHeader"
-import Footer from "../Components/Footer/Footer"
-
 import pagesRoutes from "../routes/pages"
 
 import pagesStyle from "../Style/Layout/pagesStyle"
@@ -63,7 +61,6 @@ class Pages extends React.Component {
                 )
               })}
             </Switch>
-            <Footer white />
           </div>
         </div>
       </div>
