@@ -2,6 +2,7 @@
 import React from "react"
 import cx from "classnames"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { Switch, Route, Redirect } from "react-router-dom"
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar"
@@ -20,21 +21,21 @@ import dashboardRoutes from "../routes/dashboard"
 import appStyle from "../Style/Layout/dashboardStyle"
 import andela from "../Style/img/andl.jpeg"
 
+const propTypes = {
+  classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  userData: PropTypes.oneOfType([PropTypes.object]).isRequired
+}
+
+const mapStateToProps = state => ({
+  userData: state.user.userData || {}
+})
+
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map(prop => {
       if (prop.redirect)
         return <Redirect from={prop.path} to={prop.pathTo} key={prop.path} />
-      if (prop.collapse)
-        return prop.views.map(vprop => {
-          return (
-            <Route
-              path={vprop.path}
-              component={vprop.component}
-              key={vprop.path}
-            />
-          )
-        })
+
       return (
         <Route path={prop.path} component={prop.component} key={prop.path} />
       )
@@ -104,7 +105,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { classes, ...rest } = this.props
+    const { classes, userData, ...rest } = this.props
 
     const { mobileOpen, bgColor, color, miniActive } = this.state
 
@@ -149,8 +150,6 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
-  classes: PropTypes.oneOfType([PropTypes.object]).isRequired
-}
+Dashboard.propTypes = propTypes
 
-export default withStyles(appStyle)(Dashboard)
+export default connect(mapStateToProps, null)(withStyles(appStyle)(Dashboard))

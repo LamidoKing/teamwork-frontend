@@ -9,9 +9,6 @@
 import React from "react"
 import classNames from "classnames"
 import PropTypes from "prop-types"
-// import { Manager, Target, Popper } from "react-popper";
-
-// @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
 import MenuItem from "@material-ui/core/MenuItem"
 import MenuList from "@material-ui/core/MenuList"
@@ -20,8 +17,6 @@ import Paper from "@material-ui/core/Paper"
 import Grow from "@material-ui/core/Grow"
 import Hidden from "@material-ui/core/Hidden"
 import Popper from "@material-ui/core/Popper"
-
-// @material-ui/icons
 import Person from "@material-ui/icons/Person"
 import Button from "../CustomButtons/Button"
 import { AuthToken, history } from "../../Utils"
@@ -107,12 +102,6 @@ class HeaderLinks extends React.Component {
                         className={dropdownItem}
                       >
                         Logout
-                      </MenuItem>
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={dropdownItem}
-                      >
-                        Profile
                       </MenuItem>
                     </MenuList>
                   </ClickAwayListener>

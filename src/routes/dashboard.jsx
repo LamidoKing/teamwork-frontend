@@ -1,8 +1,6 @@
 import Fingerprint from "@material-ui/icons/Fingerprint"
-import pages from "./pages"
 
 const dashRoutes = [
-  ...pages,
   {
     path: "/",
     name: "Page",
