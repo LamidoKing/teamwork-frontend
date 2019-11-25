@@ -32,14 +32,37 @@ const handleSignIn = (state, action) => {
   })
 }
 
+const handleCreateUser = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      CreatedUserData: {
+        $set: action.payload
+      },
+      signInError: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    signInError: {
+      $set: action.payload
+    },
+    CreatedUserData: {
+      $set: {}
+    }
+  })
+}
+
 const ACTION_HANDLERS = {
   GET_INPUT: handleGetinputData,
-  SIGN_IN: handleSignIn
+  SIGN_IN: handleSignIn,
+  SIGN_UP: handleCreateUser
 }
 
 const initialState = {
   inputData: {},
   userData: {},
+  CreatedUserData: {},
   signInError: {}
 }
 

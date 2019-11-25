@@ -22,10 +22,9 @@ import ListItemText from "@material-ui/core/ListItemText"
 import Hidden from "@material-ui/core/Hidden"
 import Collapse from "@material-ui/core/Collapse"
 import Icon from "@material-ui/core/Icon"
-
-// core components
+import Person from "@material-ui/icons/Person"
 import HeaderLinks from "../Header/HeaderLinks"
-
+import { AuthToken } from "../../Utils"
 import sidebarStyle from "../../Style/Components/sidebarStyle"
 
 let ps
@@ -125,6 +124,11 @@ class Sidebar extends React.Component {
     })}`
     const user = (
       <div className={userWrapperClass}>
+        <div className={classes.photo}>
+          <Icon>
+            <Person />
+          </Icon>
+        </div>
         <List className={classes.list}>
           <ListItem className={`${classes.item} ${classes.userItem}`}>
             <NavLink
@@ -133,7 +137,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary="Admin/Employee Name"
+                primary="Admin Section"
                 secondary={
                   <b
                     className={`${caret} ${classes.userCaret} ${
@@ -149,46 +153,14 @@ class Sidebar extends React.Component {
               <List className={`${classes.list} ${classes.collapseList}`}>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
-                    to="#"
+                    to="/pages/create-user"
                     className={`${classes.itemLink} ${classes.userCollapseLinks}`}
                   >
                     <span className={collapseItemMini}>
-                      {rtlActive ? "مع" : "MP"}
+                      {rtlActive ? "و" : "CU"}
                     </span>
                     <ListItemText
-                      primary={rtlActive ? "ملفي" : "My Profile"}
-                      disableTypography
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={`${classes.itemLink} ${classes.userCollapseLinks}`}
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "هوع" : "EP"}
-                    </span>
-                    <ListItemText
-                      primary={
-                        rtlActive ? "تعديل الملف الشخصي" : "Edit Profile"
-                      }
-                      disableTypography
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={`${classes.itemLink} ${classes.userCollapseLinks}`}
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "و" : "S"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "إعدادات" : "Admin create user"}
+                      primary={rtlActive ? "إعدادات" : "Create user"}
                       disableTypography
                       className={collapseItemText}
                     />
@@ -383,7 +355,7 @@ class Sidebar extends React.Component {
             {brand}
             <SidebarWrapper
               className={sidebarWrapper}
-              user={user}
+              user={AuthToken.isAdmin() && user}
               headerLinks={<HeaderLinks rtlActive={rtlActive} />}
               links={links}
             />
@@ -409,7 +381,7 @@ class Sidebar extends React.Component {
             {brand}
             <SidebarWrapper
               className={sidebarWrapper}
-              user={user}
+              user={AuthToken.isAdmin() && user}
               links={links}
             />
             {image !== undefined ? (

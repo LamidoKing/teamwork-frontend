@@ -9,7 +9,8 @@ import withStyles from "@material-ui/core/styles/withStyles"
 // core components
 import PagesHeader from "../Components/Header/PagesHeader"
 import pagesRoutes from "../routes/pages"
-
+import { AuthToken } from "../Utils"
+// import PrivateRoutes from "../routes/PrivateRoutes"
 import pagesStyle from "../Style/Layout/pagesStyle"
 
 import bgImage from "../Style/img/register.jpeg"
@@ -40,17 +41,8 @@ class Pages extends React.Component {
           >
             <Switch>
               {pagesRoutes.map(prop => {
-                if (prop.collapse) {
-                  return null
-                }
-                if (prop.redirect) {
-                  return (
-                    <Redirect
-                      from={prop.path}
-                      to={prop.pathTo}
-                      key={prop.path}
-                    />
-                  )
+                if (prop.auth === "admin" && AuthToken.isAdmin() !== true) {
+                  return <Redirect to="/" key={prop.path} />
                 }
                 return (
                   <Route

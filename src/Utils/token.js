@@ -16,7 +16,6 @@ const isTokenExpired = token => {
     }
     return false
   } catch (err) {
-    console.log("expired check failed! Line 42: AuthService.js")
     return false
   }
 }
@@ -31,8 +30,27 @@ const logout = () => {
 }
 
 const getConfirm = () => {
-  const token = decode(this.getToken())
+  const token = decode(getToken())
   return token
 }
 
-export { loggedIn, isTokenExpired, setToken, getToken, logout, getConfirm }
+const isAdmin = () => {
+  if (loggedIn()) {
+    const { rolenumber } = getConfirm()
+    if (rolenumber === 1919) {
+      return true
+    }
+  }
+
+  return false
+}
+
+export {
+  loggedIn,
+  isTokenExpired,
+  setToken,
+  getToken,
+  logout,
+  getConfirm,
+  isAdmin
+}

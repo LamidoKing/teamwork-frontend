@@ -92,7 +92,9 @@ class PagesHeader extends React.Component {
               </Button>
             </div>
           </Hidden>
-          <Hidden smDown>{list}</Hidden>
+          <Hidden smDown>
+            {window.location.pathname === "/pages/create-user" && list}
+          </Hidden>
           <Hidden mdUp>
             <Button
               className={classes.sidebarButton}
@@ -118,7 +120,7 @@ class PagesHeader extends React.Component {
                   keepMounted: true // Better open performance on mobile.
                 }}
               >
-                {list}
+                {window.location.pathname === "/pages/create-user" && list}
               </Drawer>
             </Hidden>
           </Hidden>
