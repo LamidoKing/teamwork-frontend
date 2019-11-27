@@ -1,29 +1,18 @@
 import update from "react-addons-update"
 
-const handleGetinputData = (state, action) => {
-  const { key, value } = action.payload
-  return update(state, {
-    inputData: {
-      [key]: {
-        $set: value
-      }
-    }
-  })
-}
-
 const handleSignIn = (state, action) => {
   if (action.payload.status === "success") {
     return update(state, {
       userData: {
         $set: action.payload
       },
-      signInError: {
+      error: {
         $set: {}
       }
     })
   }
   return update(state, {
-    signInError: {
+    error: {
       $set: action.payload
     },
     userData: {
@@ -38,13 +27,13 @@ const handleCreateUser = (state, action) => {
       CreatedUserData: {
         $set: action.payload
       },
-      signInError: {
+      error: {
         $set: {}
       }
     })
   }
   return update(state, {
-    signInError: {
+    error: {
       $set: action.payload
     },
     CreatedUserData: {
@@ -54,16 +43,14 @@ const handleCreateUser = (state, action) => {
 }
 
 const ACTION_HANDLERS = {
-  GET_INPUT: handleGetinputData,
   SIGN_IN: handleSignIn,
   SIGN_UP: handleCreateUser
 }
 
 const initialState = {
-  inputData: {},
   userData: {},
   CreatedUserData: {},
-  signInError: {}
+  error: {}
 }
 
 const userReducer = (state = initialState, action) => {

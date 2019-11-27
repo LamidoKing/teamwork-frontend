@@ -21,28 +21,28 @@ import CardBody from "../../Components/Card/CardBody"
 import CardHeader from "../../Components/Card/CardHeader"
 import CardIcon from "../../Components/Card/CardIcon"
 import Notification from "../../Components/Notification/Notification"
-import * as actions from "../../redux/actions"
+import { UserAction, GeneralAction } from "../../redux/actions"
 import createUserStyle from "../../Style/Pages/createUser"
 
 const propTypes = {
   classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getInputData: PropTypes.func.isRequired,
   createUser: PropTypes.func.isRequired,
-  signInError: PropTypes.oneOfType([PropTypes.object])
+  error: PropTypes.oneOfType([PropTypes.object])
 }
 
 const defaultProps = {
-  signInError: {}
+  error: {}
 }
 
 const mapStateToProps = state => ({
-  inputDataSignUp: state.user.inputDataSignUp || {},
-  signInError: state.user.signInError || {}
+  inputDataSignUp: state.general.inputDataSignUp || {},
+  error: state.user.error || {}
 })
 
 const mapActionCreators = {
-  getInputData: actions.getInputData,
-  createUser: actions.createUser
+  getInputData: GeneralAction.getInputData,
+  createUser: UserAction.createUser
 }
 
 class CreateUserPage extends React.Component {
@@ -64,9 +64,9 @@ class CreateUserPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { signInError } = this.props
+    const { error } = this.props
 
-    if (prevProps.signInError !== signInError) {
+    if (prevProps.error !== error) {
       this.showNotification("tr")
     }
   }
@@ -148,11 +148,11 @@ class CreateUserPage extends React.Component {
   }
 
   render() {
-    const { classes, signInError } = this.props
+    const { classes, error } = this.props
     const { cardAnimaton, showPassword, tr } = this.state
     return (
       <div className={classes.container}>
-        <Notification tr={tr} message={signInError.error} />
+        <Notification tr={tr} message={error.message || error.error} />
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card login className={classes[cardAnimaton]}>
