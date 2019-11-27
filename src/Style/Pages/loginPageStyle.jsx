@@ -1,7 +1,3 @@
-// ##############################
-// // // LoginPage view styles
-// #############################
-
 import { container, cardTitle } from "../Genaral/GeneralStyle"
 
 const loginPageStyle = theme => ({
@@ -48,6 +44,3 @@ const loginPageStyle = theme => ({
 })
 
 export default loginPageStyle
-
-// WEBPACK FOOTER //
-// ./src/assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx
