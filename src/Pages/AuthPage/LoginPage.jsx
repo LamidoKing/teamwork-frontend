@@ -17,27 +17,27 @@ import CardHeader from "../../Components/Card/CardHeader"
 import CardFooter from "../../Components/Card/CardFooter"
 import Notification from "../../Components/Notification/Notification"
 import loginPageStyle from "../../Style/Pages/loginPageStyle"
-import * as actions from "../../redux/actions"
+import { UserAction, GeneralAction } from "../../redux/actions"
 
 const propTypes = {
   classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getInputData: PropTypes.func.isRequired,
   signIn: PropTypes.func.isRequired,
-  signInError: PropTypes.oneOfType([PropTypes.object])
+  error: PropTypes.oneOfType([PropTypes.object])
 }
 
 const defaultProps = {
-  signInError: {}
+  error: {}
 }
 
 const mapStateToProps = state => ({
-  inputData: state.user.inputData || {},
-  signInError: state.user.signInError || {}
+  inputData: state.general.inputData || {},
+  error: state.user.error || {}
 })
 
 const mapActionCreators = {
-  getInputData: actions.getInputData,
-  signIn: actions.signIn
+  getInputData: GeneralAction.getInputData,
+  signIn: UserAction.signIn
 }
 
 class LoginPage extends React.Component {
@@ -59,9 +59,9 @@ class LoginPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { signInError } = this.props
+    const { error } = this.props
 
-    if (prevProps.signInError !== signInError) {
+    if (prevProps.error !== error) {
       this.showNotification("tr")
     }
   }
@@ -121,12 +121,12 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    const { classes, signInError } = this.props
+    const { classes, error } = this.props
     const { cardAnimaton, showPassword, tr } = this.state
 
     return (
       <div className={classes.container}>
-        <Notification tr={tr} message={signInError.error} />
+        <Notification tr={tr} message={error.message || error.error} />
 
         <GridContainer justify="center">
           <GridItem xs={12} sm={6} md={4}>
