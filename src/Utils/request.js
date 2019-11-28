@@ -53,4 +53,16 @@ const postFile = async (url = "", data) => {
   return response.json()
 }
 
-export { post, postFile }
+const get = async (url = "", data) => {
+  const options = postoptions("data")
+
+  const response = await fetch(url, {
+    method: "GET",
+    ...options,
+    body: JSON.stringify(data)
+  })
+
+  return response.json()
+}
+
+export { post, postFile, get }
