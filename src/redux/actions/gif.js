@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { POST_GIF, GET_INPUT } from "./types"
+import { POST_GIF, GET_INPUT, GIF_DATA } from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
 
@@ -46,4 +46,20 @@ const postGif = () => async (dispatch, store) => {
   }
 }
 
-export { postGif }
+const getGif = id => async dispatch => {
+  try {
+    const data = await Request.get(`${BASE_URL}/gifs/${id}`)
+
+    dispatch({
+      type: GIF_DATA,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: GIF_DATA,
+      payload: error
+    })
+  }
+}
+
+export { postGif, getGif }

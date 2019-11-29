@@ -21,12 +21,35 @@ const handlePostgif = (state, action) => {
   })
 }
 
+const handleSpecificGifData = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      specificGifData: {
+        $set: action.payload
+      },
+      error: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    error: {
+      $set: action.payload
+    },
+    specificGifData: {
+      $set: {}
+    }
+  })
+}
+
 const ACTION_HANDLERS = {
-  POST_GIF: handlePostgif
+  POST_GIF: handlePostgif,
+  GIF_DATA: handleSpecificGifData
 }
 
 const initialState = {
   gifData: {},
+  specificGifData: {},
   error: {}
 }
 
