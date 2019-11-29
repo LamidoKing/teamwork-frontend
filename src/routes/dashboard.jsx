@@ -5,6 +5,7 @@ import DynamicFeedIcon from "@material-ui/icons/DynamicFeed"
 import PostGifPage from "../Pages/GifPage/PostGifPage"
 import PostArticlePage from "../Pages/ArticlePage/PostArticlePage"
 import FeedPage from "../Pages/FeedPage/FeedPage"
+import ViewGifPage from "../Pages/GifPage/ViewGifPage"
 
 const dashRoutes = [
   {
@@ -24,6 +25,13 @@ const dashRoutes = [
     name: "Post Article",
     icon: PostAdd,
     component: PostArticlePage
+  },
+  {
+    path: "/home/pages/gifs/:id",
+    name: "Post Article",
+    icon: PostAdd,
+    sidebar: false,
+    component: ViewGifPage
   },
   { redirect: true, path: "/", pathTo: "/home/pages/feed", name: "Home" }
 ]

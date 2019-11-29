@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 import Moment from "react-moment"
 import withStyles from "@material-ui/core/styles/withStyles"
 import ArtTrack from "@material-ui/icons/ArtTrack"
@@ -98,10 +99,12 @@ class FeedPage extends React.Component {
                         </CardHeader>
                         <CardBody>
                           <div className={classes.cardHoverUnder}>
-                            <Button color="transparent" simple>
-                              <ArtTrack className={classes.underChartIcons} />
-                              view
-                            </Button>
+                            <Link to={`/home/pages/gifs/${prop.id}`}>
+                              <Button color="transparent" simple>
+                                <ArtTrack className={classes.underChartIcons} />
+                                view
+                              </Button>
+                            </Link>
                           </div>
                           <h4 className={classes.cardProductTitle}>
                             <a href="#pablo" onClick={e => e.preventDefault()}>
