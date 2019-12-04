@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { POST_ARTICLE } from "./types"
+import { POST_ARTICLE, ARTICLE_DATA } from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
 
@@ -39,4 +39,20 @@ const postArticle = () => async (dispatch, store) => {
   }
 }
 
-export { postArticle }
+const getArticle = id => async dispatch => {
+  try {
+    const data = await Request.get(`${BASE_URL}/articles/${id}`)
+
+    dispatch({
+      type: ARTICLE_DATA,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: ARTICLE_DATA,
+      payload: error
+    })
+  }
+}
+
+export { postArticle, getArticle }

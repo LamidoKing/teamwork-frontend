@@ -6,6 +6,7 @@ import PostGifPage from "../Pages/GifPage/PostGifPage"
 import PostArticlePage from "../Pages/ArticlePage/PostArticlePage"
 import FeedPage from "../Pages/FeedPage/FeedPage"
 import ViewGifPage from "../Pages/GifPage/ViewGifPage"
+import ViewArticlePage from "../Pages/ArticlePage/ViewArticlePage"
 
 const dashRoutes = [
   {
@@ -32,6 +33,13 @@ const dashRoutes = [
     icon: PostAdd,
     sidebar: false,
     component: ViewGifPage
+  },
+  {
+    path: "/home/pages/articles/:id",
+    name: "Post Article",
+    icon: PostAdd,
+    sidebar: false,
+    component: ViewArticlePage
   },
   { redirect: true, path: "/", pathTo: "/home/pages/feed", name: "Home" }
 ]

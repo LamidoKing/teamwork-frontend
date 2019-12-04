@@ -72,13 +72,15 @@ class FeedPage extends React.Component {
                             <div className={classes.date}>
                               <Moment fromNow>{prop.createdOn}</Moment>
                             </div>
-                            <Button
-                              color="primary"
-                              round
-                              className={classes.marginRight}
-                            >
-                              <NotesIcon className={classes.icons} /> MORE
-                            </Button>
+                            <Link to={`/home/pages/articles/${prop.id}`}>
+                              <Button
+                                color="primary"
+                                round
+                                className={classes.marginRight}
+                              >
+                                <NotesIcon className={classes.icons} /> MORE
+                              </Button>
+                            </Link>
                           </CardFooter>
                         </Card>
                       </GridItem>
