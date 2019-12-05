@@ -9589,6 +9589,11 @@ react-app-polyfill@^1.0.4:
     regenerator-runtime "0.13.3"
     whatwg-fetch "3.0.0"
 
+react-bootstrap-sweetalert@^5.1.8:
+  version "5.1.8"
+  resolved "https://registry.yarnpkg.com/react-bootstrap-sweetalert/-/react-bootstrap-sweetalert-5.1.8.tgz#2546ba7eb09d331b671fd1dd9d3eb9f4b2b6289e"
+  integrity sha512-h3MPrOITMUg7zEb+94Px9AgyZ76RMTasxeGtNv2PyHScmsOEjiN+cY67TrLIFkPGx4ecHwhlSWHtBhwADrZduQ==
+
 react-dev-utils@^9.1.0:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-9.1.0.tgz#3ad2bb8848a32319d760d0a84c56c14bdaae5e81"
