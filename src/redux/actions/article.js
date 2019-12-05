@@ -1,5 +1,10 @@
 /* eslint-disable import/prefer-default-export */
-import { POST_ARTICLE, ARTICLE_DATA, EDITED_ARTICLE_DATA } from "./types"
+import {
+  POST_ARTICLE,
+  ARTICLE_DATA,
+  EDITED_ARTICLE_DATA,
+  DELETE_ARTICLE
+} from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
 
@@ -82,4 +87,22 @@ const editArticle = id => async (dispatch, store) => {
   }
 }
 
-export { postArticle, getArticle, editArticle }
+const deleteArticle = id => async dispatch => {
+  try {
+    const data = await Request.del(`${BASE_URL}/articles/${id}`)
+
+    dispatch({
+      type: DELETE_ARTICLE,
+      payload: data
+    })
+    if (data.data) {
+      history.push("/")
+    }
+  } catch (error) {
+    dispatch({
+      type: DELETE_ARTICLE,
+      payload: error
+    })
+  }
+}
+export { postArticle, getArticle, editArticle, deleteArticle }

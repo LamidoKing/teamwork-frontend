@@ -27,6 +27,7 @@ const propTypes = {
   getArticle: PropTypes.func.isRequired,
   getInputData: PropTypes.func.isRequired,
   editArticle: PropTypes.func.isRequired,
+  deleteArticle: PropTypes.func.isRequired,
   articleData: PropTypes.oneOfType([PropTypes.object]),
   editData: PropTypes.oneOfType([PropTypes.object]),
   match: PropTypes.oneOfType([PropTypes.object]).isRequired
@@ -46,7 +47,8 @@ const mapStateToProps = state => ({
 const mapActionCreators = {
   getArticle: ArticleAction.getArticle,
   getInputData: GeneralAction.getInputData,
-  editArticle: ArticleAction.editArticle
+  editArticle: ArticleAction.editArticle,
+  deleteArticle: ArticleAction.deleteArticle
 }
 
 class ViewArticlePage extends React.PureComponent {
@@ -54,7 +56,8 @@ class ViewArticlePage extends React.PureComponent {
     super(props)
 
     this.state = {
-      open: false
+      open: false,
+      openDeleteDl: false
     }
   }
 
@@ -86,6 +89,7 @@ class ViewArticlePage extends React.PureComponent {
     const { articleData } = this.props
     this.setState({
       open: true,
+      openDeleteDl: false,
       CurrentTitle: articleData.title,
       CurrentArticle: articleData.article
     })
@@ -93,7 +97,8 @@ class ViewArticlePage extends React.PureComponent {
 
   handleClose = () => {
     this.setState({
-      open: false
+      open: false,
+      openDeleteDl: false
     })
   }
 
@@ -112,66 +117,104 @@ class ViewArticlePage extends React.PureComponent {
     this.handleClose()
   }
 
+  handleDeleteButton = () => {
+    this.setState({
+      openDeleteDl: true,
+      open: false
+    })
+  }
+
+  handleDelete = () => {
+    const { deleteArticle, match } = this.props
+    const { id } = match.params
+    deleteArticle(id)
+  }
+
   render() {
     const { classes, articleData } = this.props
     const { article, title, createdOn, authorId } = articleData
-    const { open, CurrentTitle, CurrentArticle } = this.state
+    const { open, openDeleteDl, CurrentTitle, CurrentArticle } = this.state
     const author = AuthToken.getConfirm().userId === authorId
 
     return (
       <div>
         <div>
           <Dialog
-            open={open}
+            open={open || openDeleteDl}
             onClose={this.handleClose}
             aria-labelledby="form-dialog-title"
           >
-            <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-            <DialogContent>
-              <DialogContentText>You Can Edit Your Article</DialogContentText>
-              <CustomInput
-                labelText="Article Title"
-                id="articleTitle"
-                name="articleTitle"
-                onChange={this.handleInput}
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  value: CurrentTitle,
-                  type: "text",
-                  name: "articleTitle",
-                  onChange: this.handleChange("CurrentTitle")
-                }}
-              />
-              <CustomInput
-                labelText="Article Title"
-                id="CurrentArticle"
-                name="CurrentArticle"
-                onChange={this.handleInput}
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "text",
-                  value: CurrentArticle,
-                  name: "article",
-                  onChange: this.handleChange("CurrentArticle"),
-                  multiline: true,
-                  rows: 8
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={this.handleSubmit} color="primary">
-                EDIT
-              </Button>
-            </DialogActions>
+            <DialogTitle id="form-dialog-title">Article</DialogTitle>
+            {open && (
+              <>
+                <DialogContent>
+                  <DialogContentText>
+                    You Can Edit Your Article
+                  </DialogContentText>
+                  <CustomInput
+                    labelText="Article Title"
+                    id="articleTitle"
+                    name="articleTitle"
+                    onChange={this.handleInput}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      value: CurrentTitle,
+                      type: "text",
+                      name: "articleTitle",
+                      onChange: this.handleChange("CurrentTitle")
+                    }}
+                  />
+                  <CustomInput
+                    labelText="Article Title"
+                    id="CurrentArticle"
+                    name="CurrentArticle"
+                    onChange={this.handleInput}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "text",
+                      value: CurrentArticle,
+                      name: "article",
+                      onChange: this.handleChange("CurrentArticle"),
+                      multiline: true,
+                      rows: 8
+                    }}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={this.handleSubmit} color="primary">
+                    EDIT
+                  </Button>
+                </DialogActions>
+              </>
+            )}
+            {openDeleteDl && open === false && (
+              <>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Are You Sure You Want Delete This Article This cannot be
+                    Undone
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="primary">
+                    NO
+                  </Button>
+                  <Button onClick={this.handleDelete} color="primary" autoFocus>
+                    YES
+                  </Button>
+                </DialogActions>
+              </>
+            )}
           </Dialog>
         </div>
+
         <GridContainer justify="center">
           {article ? (
             <GridItem xs={12} sm={12} md={12}>
@@ -198,6 +241,7 @@ class ViewArticlePage extends React.PureComponent {
                         color="primary"
                         round
                         className={classes.marginRight}
+                        onClick={this.handleDeleteButton}
                       >
                         <Delete className={classes.icons} /> DELETE
                       </Button>
