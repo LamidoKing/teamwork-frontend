@@ -63,16 +63,39 @@ const handleEditedArticleData = (state, action) => {
   })
 }
 
+const handleDeleterticle = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      deleteArticle: {
+        $set: action.payload
+      },
+      error: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    error: {
+      $set: action.payload
+    },
+    deleteArticle: {
+      $set: {}
+    }
+  })
+}
+
 const ACTION_HANDLERS = {
   POST_ARTICLE: handlePostArticle,
   ARTICLE_DATA: handleSpecificArticleData,
-  EDITED_ARTICLE_DATA: handleEditedArticleData
+  EDITED_ARTICLE_DATA: handleEditedArticleData,
+  DELETE_ARTICLE: handleDeleterticle
 }
 
 const initialState = {
   articleData: {},
   specificArticleData: {},
   editedArticleData: {},
+  deleteArticle: {},
   error: {}
 }
 

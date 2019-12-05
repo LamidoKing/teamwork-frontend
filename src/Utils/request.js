@@ -77,4 +77,15 @@ const patch = async (url = "", data) => {
   return response.json()
 }
 
-export { post, postFile, get, patch }
+const del = async (url = "") => {
+  const options = postoptions("data")
+
+  const response = await fetch(url, {
+    method: "DELETE",
+    ...options
+  })
+
+  return response.json()
+}
+
+export { post, postFile, get, patch, del }
