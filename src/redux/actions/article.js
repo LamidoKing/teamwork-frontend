@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { POST_ARTICLE, ARTICLE_DATA } from "./types"
+import { POST_ARTICLE, ARTICLE_DATA, EDITED_ARTICLE_DATA } from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
 
@@ -55,4 +55,31 @@ const getArticle = id => async dispatch => {
   }
 }
 
-export { postArticle, getArticle }
+const editArticle = id => async (dispatch, store) => {
+  try {
+    const { CurrentTitle, CurrentArticle } = await store().general.inputData
+
+    const { article, title } = await store().article.specificArticleData.data
+
+    const editedData = {
+      title: !CurrentTitle ? title : CurrentTitle,
+      article: !CurrentArticle ? article : CurrentArticle
+    }
+
+    const data = await Request.patch(`${BASE_URL}/articles/${id}`, {
+      ...editedData
+    })
+
+    dispatch({
+      type: EDITED_ARTICLE_DATA,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: EDITED_ARTICLE_DATA,
+      payload: error
+    })
+  }
+}
+
+export { postArticle, getArticle, editArticle }

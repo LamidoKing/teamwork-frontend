@@ -55,10 +55,10 @@ class FeedPage extends React.Component {
             {feedData.data.map(prop => {
               if (prop.article) {
                 return (
-                  <div key={prop.article}>
+                  <div key={prop.id * 999}>
                     <GridContainer justify="center">
                       <GridItem xs={12} sm={12} md={9}>
-                        <Card key={prop.id}>
+                        <Card>
                           <CardHeader color="success" icon>
                             <CardIcon color="success">
                               <SubjectIcon />
@@ -91,7 +91,7 @@ class FeedPage extends React.Component {
               }
               return (
                 <div key={prop.id}>
-                  <GridContainer justify="center" key={prop.id}>
+                  <GridContainer justify="center">
                     <GridItem xs={12} sm={12} md={9}>
                       <Card product className={classes.cardHover}>
                         <CardHeader image className={classes.cardHeaderHover}>

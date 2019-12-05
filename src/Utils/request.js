@@ -65,4 +65,16 @@ const get = async (url = "", data) => {
   return response.json()
 }
 
-export { post, postFile, get }
+const patch = async (url = "", data) => {
+  const options = postoptions("data")
+
+  const response = await fetch(url, {
+    method: "PATCH",
+    ...options,
+    body: JSON.stringify(data)
+  })
+
+  return response.json()
+}
+
+export { post, postFile, get, patch }

@@ -1,9 +1,11 @@
 import { cardTitle } from "../Genaral/GeneralStyle"
 
 import hoverCardStyle from "../Genaral/hoverCardStyle"
+import buttonStyle from "../Components/buttonStyle"
 
 const feedStyle = {
   ...hoverCardStyle,
+  ...buttonStyle,
   cardIconTitle: {
     ...cardTitle,
     marginTop: "15px",
