@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { POST_GIF, GET_INPUT, GIF_DATA, DELETE_GIF } from "./types"
+import { POST_GIF, GET_INPUT, GIF_DATA, DELETE_GIF, COMMENT_GIF } from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
 
@@ -81,4 +81,32 @@ const deleteGif = id => async dispatch => {
   }
 }
 
-export { postGif, getGif, deleteGif }
+const commentGifs = id => async (dispatch, store) => {
+  try {
+    const { commentGif } = await store().general.inputData
+
+    const error = {
+      fileErr: { status: "error", message: "input Comment" }
+    }
+
+    if (!commentGif) {
+      throw error.fileErr
+    }
+
+    const data = await Request.post(`${BASE_URL}/gifs/${id}/comment`, {
+      comment: commentGif
+    })
+
+    dispatch({
+      type: COMMENT_GIF,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: COMMENT_GIF,
+      payload: error
+    })
+  }
+}
+
+export { postGif, getGif, deleteGif, commentGifs }
