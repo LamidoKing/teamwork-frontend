@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import Moment from "react-moment"
 import withStyles from "@material-ui/core/styles/withStyles"
+import CommentIcon from "@material-ui/icons/Comment"
 import Delete from "@material-ui/icons/Delete"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
@@ -18,6 +19,7 @@ import Button from "../../Components/CustomButtons/Button"
 import Card from "../../Components/Card/Card"
 import CardBody from "../../Components/Card/CardBody"
 import CardFooter from "../../Components/Card/CardFooter"
+import Comment from "../../Components/Comment/Comment"
 import feedStyle from "../../Style/Pages/feedStyle"
 import { ArticleAction, GeneralAction } from "../../redux/actions"
 import { AuthToken } from "../../Utils"
@@ -28,19 +30,24 @@ const propTypes = {
   getInputData: PropTypes.func.isRequired,
   editArticle: PropTypes.func.isRequired,
   deleteArticle: PropTypes.func.isRequired,
+  commentArticle: PropTypes.func.isRequired,
   articleData: PropTypes.oneOfType([PropTypes.object]),
   editData: PropTypes.oneOfType([PropTypes.object]),
-  match: PropTypes.oneOfType([PropTypes.object]).isRequired
+  commentData: PropTypes.oneOfType([PropTypes.object]),
+  match: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  error: PropTypes.oneOfType([PropTypes.object]).isRequired
 }
 
 const defaultProps = {
   articleData: {},
+  commentData: {},
   editData: {}
 }
 
 const mapStateToProps = state => ({
   articleData: state.article.specificArticleData.data || {},
   editData: state.article.editedArticleData || {},
+  commentData: state.article.commentData || {},
   error: state.article.error || {}
 })
 
@@ -48,7 +55,8 @@ const mapActionCreators = {
   getArticle: ArticleAction.getArticle,
   getInputData: GeneralAction.getInputData,
   editArticle: ArticleAction.editArticle,
-  deleteArticle: ArticleAction.deleteArticle
+  deleteArticle: ArticleAction.deleteArticle,
+  commentArticle: ArticleAction.commentArticle
 }
 
 class ViewArticlePage extends React.PureComponent {
@@ -57,7 +65,8 @@ class ViewArticlePage extends React.PureComponent {
 
     this.state = {
       open: false,
-      openDeleteDl: false
+      openDeleteDl: false,
+      openCommentDl: false
     }
   }
 
@@ -68,9 +77,13 @@ class ViewArticlePage extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { editData, getArticle, match } = this.props
+    const { editData, getArticle, commentData, match } = this.props
     const { id } = match.params
 
+    if (prevProps.commentData !== commentData) {
+      getArticle(id)
+      this.handleClose()
+    }
     if (prevProps.editData !== editData) {
       getArticle(id)
     }
@@ -98,7 +111,8 @@ class ViewArticlePage extends React.PureComponent {
   handleClose = () => {
     this.setState({
       open: false,
-      openDeleteDl: false
+      openDeleteDl: false,
+      openCommentDl: false
     })
   }
 
@@ -120,6 +134,15 @@ class ViewArticlePage extends React.PureComponent {
   handleDeleteButton = () => {
     this.setState({
       openDeleteDl: true,
+      open: false,
+      openCommentDl: false
+    })
+  }
+
+  handleCommentButton = () => {
+    this.setState({
+      openCommentDl: true,
+      openDeleteDl: false,
       open: false
     })
   }
@@ -130,17 +153,31 @@ class ViewArticlePage extends React.PureComponent {
     deleteArticle(id)
   }
 
+  handleComment = () => {
+    const { commentArticle, match } = this.props
+    const { id } = match.params
+    commentArticle(id)
+  }
+
   render() {
-    const { classes, articleData } = this.props
+    const { classes, articleData, error } = this.props
     const { article, title, createdOn, authorId } = articleData
-    const { open, openDeleteDl, CurrentTitle, CurrentArticle } = this.state
+    const {
+      open,
+      openDeleteDl,
+      openCommentDl,
+      CurrentTitle,
+      CurrentArticle
+    } = this.state
     const author = AuthToken.getConfirm().userId === authorId
 
     return (
       <div>
         <div>
           <Dialog
-            open={open || openDeleteDl}
+            fullWidth
+            maxWidth="xl"
+            open={open || openDeleteDl || openCommentDl}
             onClose={this.handleClose}
             aria-labelledby="form-dialog-title"
           >
@@ -212,6 +249,44 @@ class ViewArticlePage extends React.PureComponent {
                 </DialogActions>
               </>
             )}
+            {openCommentDl && openDeleteDl === false && open === false && (
+              <>
+                <DialogContent>
+                  <DialogContentText>
+                    You Can comment this Article
+                  </DialogContentText>
+                  <CustomInput
+                    labelText="Comment"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "text",
+                      name: "comment",
+                      onChange: this.handleChange("comment"),
+                      multiline: true,
+                      rows: 8
+                    }}
+                  />
+
+                  {error.status === "error" && (
+                    <DialogContentText>{error.message}</DialogContentText>
+                  )}
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="primary">
+                    CLOSE
+                  </Button>
+                  <Button
+                    onClick={this.handleComment}
+                    color="primary"
+                    autoFocus
+                  >
+                    COMMENT
+                  </Button>
+                </DialogActions>
+              </>
+            )}
           </Dialog>
         </div>
 
@@ -227,28 +302,41 @@ class ViewArticlePage extends React.PureComponent {
                   <div className={classes.date}>
                     <Moment fromNow>{createdOn}</Moment>
                   </div>
-                  {author && (
-                    <div>
+                  <div>
+                    {author && (
+                      <>
+                        <Button
+                          color="primary"
+                          round
+                          className={classes.marginRight}
+                          onClick={this.handleClickOpen}
+                        >
+                          <Edit className={classes.icons} /> EDIT
+                        </Button>
+                        <Button
+                          color="primary"
+                          round
+                          className={classes.marginRight}
+                          onClick={this.handleDeleteButton}
+                        >
+                          <Delete className={classes.icons} /> DELETE
+                        </Button>
+                      </>
+                    )}
+                    {!author && (
                       <Button
                         color="primary"
                         round
                         className={classes.marginRight}
-                        onClick={this.handleClickOpen}
+                        onClick={this.handleCommentButton}
                       >
-                        <Edit className={classes.icons} /> EDIT
+                        <CommentIcon className={classes.icons} /> COMMENT
                       </Button>
-                      <Button
-                        color="primary"
-                        round
-                        className={classes.marginRight}
-                        onClick={this.handleDeleteButton}
-                      >
-                        <Delete className={classes.icons} /> DELETE
-                      </Button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </CardFooter>
               </Card>
+              {articleData && <Comment comments={articleData.comments} />}
             </GridItem>
           ) : (
             <GridItem xs={12} sm={12} md={12}>
