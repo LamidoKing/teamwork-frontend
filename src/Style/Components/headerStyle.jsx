@@ -1,7 +1,3 @@
-// ##############################
-// // // Header styles
-// #############################
-
 import {
   containerFluid,
   defaultFont,
@@ -11,9 +7,9 @@ import {
   successColor,
   warningColor,
   dangerColor
-} from "../Genaral/GeneralStyle";
+} from "../Genaral/GeneralStyle"
 
-const headerStyle = theme => ({
+const headerStyle = {
   appBar: {
     backgroundColor: "transparent",
     boxShadow: "none",
@@ -90,11 +86,6 @@ const headerStyle = theme => ({
     width: "20px",
     height: "17px"
   }
-});
+}
 
-export default headerStyle;
-
-
-
-// WEBPACK FOOTER //
-// ./src/assets/jss/material-dashboard-pro-react/components/headerStyle.jsx
+export default headerStyle

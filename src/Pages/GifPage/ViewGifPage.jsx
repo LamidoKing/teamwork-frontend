@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import Moment from "react-moment"
 import withStyles from "@material-ui/core/styles/withStyles"
+import CommentIcon from "@material-ui/icons/Comment"
 import Delete from "@material-ui/icons/Delete"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
@@ -18,6 +19,7 @@ import CardBody from "../../Components/Card/CardBody"
 import CardFooter from "../../Components/Card/CardFooter"
 import feedStyle from "../../Style/Pages/feedStyle"
 import { GifAction } from "../../redux/actions"
+import { AuthToken } from "../../Utils"
 
 const propTypes = {
   classes: PropTypes.oneOfType([PropTypes.object]).isRequired,
@@ -77,7 +79,8 @@ class ViewGifPage extends React.PureComponent {
   render() {
     const { classes, gifData } = this.props
     const { open } = this.state
-    const { imageUrl, title, createdOn } = gifData
+    const { imageUrl, title, authorId, createdOn } = gifData
+    const author = AuthToken.getConfirm().userId === authorId
 
     return (
       <div>
@@ -114,10 +117,12 @@ class ViewGifPage extends React.PureComponent {
               </CardHeader>
               <CardBody>
                 <div className={classes.cardHoverUnder}>
-                  <Button simple color="info" onClick={this.handleClickOpen}>
-                    <Delete className={classes.underChartIcons} />
-                    Delete
-                  </Button>
+                  {author && (
+                    <Button simple color="info" onClick={this.handleClickOpen}>
+                      <Delete className={classes.underChartIcons} />
+                      Delete
+                    </Button>
+                  )}
                 </div>
                 <h4 className={classes.cardProductTitle}>
                   <a href="#pablo" onClick={e => e.preventDefault()}>
@@ -129,6 +134,11 @@ class ViewGifPage extends React.PureComponent {
                 <div className={classes.price}>
                   <Moment fromNow>{createdOn}</Moment>
                 </div>
+                {!author && (
+                  <Button color="primary" round className={classes.marginRight}>
+                    <CommentIcon className={classes.icons} /> COMMENT
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           </GridItem>

@@ -3,7 +3,8 @@ import {
   POST_ARTICLE,
   ARTICLE_DATA,
   EDITED_ARTICLE_DATA,
-  DELETE_ARTICLE
+  DELETE_ARTICLE,
+  COMMENT_ARTICLE
 } from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
@@ -105,4 +106,33 @@ const deleteArticle = id => async dispatch => {
     })
   }
 }
-export { postArticle, getArticle, editArticle, deleteArticle }
+
+const commentArticle = id => async (dispatch, store) => {
+  try {
+    const { comment } = await store().general.inputData
+
+    const error = {
+      fileErr: { status: "error", message: "input Comment" }
+    }
+
+    if (!comment) {
+      throw error.fileErr
+    }
+
+    const data = await Request.post(`${BASE_URL}/articles/${id}/comment`, {
+      comment
+    })
+
+    dispatch({
+      type: COMMENT_ARTICLE,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: COMMENT_ARTICLE,
+      payload: error
+    })
+  }
+}
+
+export { postArticle, getArticle, editArticle, deleteArticle, commentArticle }

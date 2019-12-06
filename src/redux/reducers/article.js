@@ -84,11 +84,33 @@ const handleDeleterticle = (state, action) => {
   })
 }
 
+const handleCommentAticle = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      commentData: {
+        $set: action.payload
+      },
+      error: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    error: {
+      $set: action.payload
+    },
+    commentData: {
+      $set: {}
+    }
+  })
+}
+
 const ACTION_HANDLERS = {
   POST_ARTICLE: handlePostArticle,
   ARTICLE_DATA: handleSpecificArticleData,
   EDITED_ARTICLE_DATA: handleEditedArticleData,
-  DELETE_ARTICLE: handleDeleterticle
+  DELETE_ARTICLE: handleDeleterticle,
+  COMMENT_ARTICLE: handleCommentAticle
 }
 
 const initialState = {
@@ -96,6 +118,7 @@ const initialState = {
   specificArticleData: {},
   editedArticleData: {},
   deleteArticle: {},
+  commentData: {},
   error: {}
 }
 
