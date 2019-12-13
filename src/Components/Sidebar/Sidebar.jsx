@@ -319,10 +319,10 @@ class Sidebar extends React.Component {
     })}`
     const brand = (
       <div className={logoClasses}>
-        <a href="https://lamido.ml" className={logoMini}>
+        <a href="https://lamido.cf" className={logoMini}>
           <img src={logo} alt="logo" className={classes.img} />
         </a>
-        <a href="https://lamido.ml" className={logoNormal}>
+        <a href="https://lamido.cf" className={logoNormal}>
           {logoText}
         </a>
       </div>

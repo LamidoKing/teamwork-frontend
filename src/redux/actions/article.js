@@ -4,7 +4,9 @@ import {
   ARTICLE_DATA,
   EDITED_ARTICLE_DATA,
   DELETE_ARTICLE,
-  COMMENT_ARTICLE
+  COMMENT_ARTICLE,
+  FLAG_ARTICLE,
+  FLAG_ARTICLE_COMMENT
 } from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
@@ -135,4 +137,96 @@ const commentArticle = id => async (dispatch, store) => {
   }
 }
 
-export { postArticle, getArticle, editArticle, deleteArticle, commentArticle }
+const flagArticle = (id, userId, flag, articleId) => async (
+  dispatch,
+  store
+) => {
+  try {
+    const { flagArticleData, specificArticleData } = await store().article
+
+    const error = {
+      articleError: {
+        status: "error",
+        message: "You Already Flag This Article"
+      }
+    }
+
+    if (
+      flagArticleData.data &&
+      flagArticleData.data.article === specificArticleData.data.article
+    ) {
+      throw error.articleError
+    }
+
+    const data = await Request.post(`${BASE_URL}/articles/${id}/flag`, {
+      userId,
+      flag,
+      articleId
+    })
+
+    dispatch({
+      type: FLAG_ARTICLE,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: FLAG_ARTICLE,
+      payload: error
+    })
+  }
+}
+
+const flagArticleComment = (id, userId, flag, commentId) => async (
+  dispatch,
+  store
+) => {
+  try {
+    const { flagArticleCommentData, specificArticleData } = await store()
+      .article
+
+    const error = {
+      articleCommentError: {
+        status: "error",
+        message: "You Already Flag This Comment"
+      }
+    }
+
+    if (flagArticleCommentData.data) {
+      const isArticle = specificArticleData.data.comments.find(
+        comment => comment.commentId === commentId
+      )
+      if (flagArticleCommentData.data.comment === isArticle.comment) {
+        throw error.articleCommentError
+      }
+    }
+
+    const data = await Request.post(
+      `${BASE_URL}/articles/${id}/comment/${commentId}/flag`,
+      {
+        userId,
+        flag,
+        commentId
+      }
+    )
+
+    dispatch({
+      type: FLAG_ARTICLE_COMMENT,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: FLAG_ARTICLE_COMMENT,
+      payload: error
+    })
+  }
+}
+
+export {
+  postArticle,
+  getArticle,
+  editArticle,
+  deleteArticle,
+  commentArticle,
+  flagArticle,
+  flagArticleComment
+}

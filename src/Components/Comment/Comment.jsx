@@ -10,64 +10,87 @@ import CardBody from "../Card/CardBody"
 
 import { AuthToken } from "../../Utils"
 
-const Formatcomments = comments => {
-  const commentsArray = []
+class Comment extends React.PureComponent {
+  Formatcomments = comments => {
+    const { handleFlagCommentButton, isArticleFlag } = this.props
+    const commentsArray = []
 
-  const side = comments.length
-  for (let i = 0; i < side; i += 1) {
-    if (i % 2 === 0) {
-      commentsArray[i] = {
-        id: comments[i].commentId,
-        inverted: true,
-        badgeColor: "info",
-        titleColor: "info",
-        body: (
-          <div>
-            <p>{comments[i].comment}</p>
-          </div>
-        ),
-        footer: (
-          <>
-            <Button round color="primary" key="a">
-              flag
-            </Button>
-            {AuthToken.isAdmin() && (
-              <Button round color="primary" key="b">
-                delete
+    const side = comments.length
+    for (let i = 0; i < side; i += 1) {
+      if (i % 2 === 0) {
+        commentsArray[i] = {
+          id: comments[i].commentId,
+          inverted: true,
+          badgeColor: "info",
+          titleColor: "info",
+          body: (
+            <div>
+              <p>{comments[i].comment}</p>
+            </div>
+          ),
+          footer: (
+            <>
+              <Button
+                round
+                color="primary"
+                disabled={isArticleFlag}
+                onClick={() =>
+                  handleFlagCommentButton(
+                    comments[i].authorId,
+                    true,
+                    comments[i].commentId
+                  )
+                }
+              >
+                flag
               </Button>
-            )}
-          </>
-        )
-      }
-    } else {
-      commentsArray[i] = {
-        id: comments[i].commentId,
-        badgeColor: "info",
-        titleColor: "info",
-        body: (
-          <div>
-            <p>{comments[i].comment}</p>
-          </div>
-        ),
-        footer: (
-          <>
-            <Button round color="primary" key="a">
-              flag
-            </Button>
-            {AuthToken.isAdmin() && (
-              <Button round color="primary" key="b">
-                delete
+              {AuthToken.isAdmin() && (
+                <Button round color="primary" key="b">
+                  delete
+                </Button>
+              )}
+            </>
+          )
+        }
+      } else {
+        commentsArray[i] = {
+          id: comments[i].commentId,
+          badgeColor: "info",
+          titleColor: "info",
+          body: (
+            <div>
+              <p>{comments[i].comment}</p>
+            </div>
+          ),
+          footer: (
+            <>
+              <Button
+                round
+                disabled={isArticleFlag}
+                color="primary"
+                onClick={() =>
+                  handleFlagCommentButton(
+                    comments[i].authorId,
+                    true,
+                    comments[i].commentId
+                  )
+                }
+              >
+                flag
               </Button>
-            )}
-          </>
-        )
+              {AuthToken.isAdmin() && (
+                <Button round color="primary">
+                  delete
+                </Button>
+              )}
+            </>
+          )
+        }
       }
     }
+    return commentsArray
   }
-  return commentsArray
-}
 
-class Comment extends React.PureComponent {
   render() {
     const { comments } = this.props
     return (
@@ -77,7 +100,7 @@ class Comment extends React.PureComponent {
           <GridItem xs={12}>
             <Card plain>
               <CardBody plain>
-                <Timeline stories={Formatcomments(comments)} />
+                <Timeline stories={this.Formatcomments(comments)} />
               </CardBody>
             </Card>
           </GridItem>
@@ -88,7 +111,9 @@ class Comment extends React.PureComponent {
 }
 
 Comment.propTypes = {
-  comments: PropTypes.oneOfType([PropTypes.array]).isRequired
+  comments: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  handleFlagCommentButton: PropTypes.func.isRequired,
+  isArticleFlag: PropTypes.bool.isRequired
 }
 
 export default Comment

@@ -84,11 +84,55 @@ const handleCommentGif = (state, action) => {
   })
 }
 
+const handleFlagGif = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      flagGifData: {
+        $set: action.payload
+      },
+      error: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    error: {
+      $set: action.payload
+    },
+    flagGifData: {
+      $set: {}
+    }
+  })
+}
+
+const handleFlagGifComment = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      flagGifCommentData: {
+        $set: action.payload
+      },
+      error: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    error: {
+      $set: action.payload
+    },
+    flagGifCommentData: {
+      $set: {}
+    }
+  })
+}
+
 const ACTION_HANDLERS = {
   POST_GIF: handlePostgif,
   GIF_DATA: handleSpecificGifData,
   DELETE_GIF: handleDeleteGif,
-  COMMENT_GIF: handleCommentGif
+  COMMENT_GIF: handleCommentGif,
+  FLAG_GIF: handleFlagGif,
+  FLAG_GIF_COMMENT: handleFlagGifComment
 }
 
 const initialState = {
@@ -96,6 +140,8 @@ const initialState = {
   specificGifData: {},
   deleteGif: {},
   commentData: {},
+  flagGifData: {},
+  flagGifCommentData: {},
   error: {}
 }
 

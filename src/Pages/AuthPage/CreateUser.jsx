@@ -73,9 +73,9 @@ class CreateUserPage extends React.Component {
 
   componentWillUnmount() {
     let id = window.setTimeout(null, 0)
-    // eslint-disable-next-line no-plusplus
-    while (id--) {
+    while (id > 0) {
       window.clearTimeout(id)
+      id -= 1
     }
     window.removeEventListener("resize", this.resizeFunction)
     clearTimeout(this.timeOutFunction)
