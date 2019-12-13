@@ -105,12 +105,56 @@ const handleCommentAticle = (state, action) => {
   })
 }
 
+const handleFlagAticle = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      flagArticleData: {
+        $set: action.payload
+      },
+      error: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    error: {
+      $set: action.payload
+    },
+    flagArticleData: {
+      $set: {}
+    }
+  })
+}
+
+const handleFlagAticleComment = (state, action) => {
+  if (action.payload.status === "success") {
+    return update(state, {
+      flagArticleCommentData: {
+        $set: action.payload
+      },
+      error: {
+        $set: {}
+      }
+    })
+  }
+  return update(state, {
+    error: {
+      $set: action.payload
+    },
+    flagArticleCommentData: {
+      $set: {}
+    }
+  })
+}
+
 const ACTION_HANDLERS = {
   POST_ARTICLE: handlePostArticle,
   ARTICLE_DATA: handleSpecificArticleData,
   EDITED_ARTICLE_DATA: handleEditedArticleData,
   DELETE_ARTICLE: handleDeleterticle,
-  COMMENT_ARTICLE: handleCommentAticle
+  COMMENT_ARTICLE: handleCommentAticle,
+  FLAG_ARTICLE: handleFlagAticle,
+  FLAG_ARTICLE_COMMENT: handleFlagAticleComment
 }
 
 const initialState = {
@@ -119,6 +163,8 @@ const initialState = {
   editedArticleData: {},
   deleteArticle: {},
   commentData: {},
+  flagArticleData: {},
+  flagArticleCommentData: {},
   error: {}
 }
 

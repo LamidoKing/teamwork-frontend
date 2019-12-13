@@ -7,7 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles"
 import ArtTrack from "@material-ui/icons/ArtTrack"
 import SubjectIcon from "@material-ui/icons/Subject"
 import NotesIcon from "@material-ui/icons/Notes"
-// core components
+import Skeleton from "@material-ui/lab/Skeleton"
 import GridContainer from "../../Components/Grid/GridContainer"
 import GridItem from "../../Components/Grid/GridItem"
 import Button from "../../Components/CustomButtons/Button"
@@ -47,10 +47,11 @@ class FeedPage extends React.Component {
 
   render() {
     const { classes, feedData } = this.props
+    const { status } = feedData
 
     return (
       <div>
-        {feedData.status === "success" && (
+        {status === "success" ? (
           <>
             {feedData.data.map(prop => {
               if (prop.article) {
@@ -127,6 +128,43 @@ class FeedPage extends React.Component {
               )
             })}
           </>
+        ) : (
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+              <Skeleton variant="rect" height={300}>
+                <Skeleton height={18} width="25%" className={classes.center} />
+                <Skeleton height={18} style={{ marginBottom: 8 }} />
+                <Skeleton height={18} style={{ marginBottom: 8 }} />
+                <Skeleton height={18} style={{ marginBottom: 8 }} />
+                <Skeleton height={18} style={{ marginBottom: 8 }} />
+                <Skeleton height={18} style={{ marginBottom: 8 }} />
+                <Skeleton height={18} style={{ marginBottom: 8 }} />
+                <Skeleton height={18} width="80%" />
+              </Skeleton>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={12}>
+              <Skeleton variant="rect" height={300} style={{ marginTop: 20 }}>
+                <Skeleton
+                  variant="rect"
+                  height={200}
+                  style={{ marginLeft: 10, marginRight: 10 }}
+                />
+                <Skeleton
+                  height={18}
+                  style={{ marginLeft: 10, marginRight: 10, marginBottom: 8 }}
+                />
+                <Skeleton
+                  height={18}
+                  style={{ marginLeft: 10, marginRight: 10, marginBottom: 8 }}
+                />
+                <Skeleton
+                  height={18}
+                  style={{ marginLeft: 10, marginRight: 10, marginBottom: 8 }}
+                />
+                <Skeleton height={18} width="80%" />
+              </Skeleton>
+            </GridItem>
+          </GridContainer>
         )}
       </div>
     )

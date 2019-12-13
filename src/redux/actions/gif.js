@@ -1,5 +1,13 @@
 /* eslint-disable import/prefer-default-export */
-import { POST_GIF, GET_INPUT, GIF_DATA, DELETE_GIF, COMMENT_GIF } from "./types"
+import {
+  POST_GIF,
+  GET_INPUT,
+  GIF_DATA,
+  DELETE_GIF,
+  COMMENT_GIF,
+  FLAG_GIF,
+  FLAG_GIF_COMMENT
+} from "./types"
 import { BASE_URL } from "../constants"
 import { Request, history } from "../../Utils"
 
@@ -109,4 +117,83 @@ const commentGifs = id => async (dispatch, store) => {
   }
 }
 
-export { postGif, getGif, deleteGif, commentGifs }
+const flagGif = (id, userId, flag, gifId) => async (dispatch, store) => {
+  try {
+    const { flagGifData, specificGifData } = await store().gif
+
+    const error = {
+      gifError: {
+        status: "error",
+        message: "You Already Flag This Gif"
+      }
+    }
+
+    if (
+      flagGifData.data &&
+      flagGifData.data.gifUrl === specificGifData.data.imageUrl
+    ) {
+      throw error.gifError
+    }
+
+    const data = await Request.post(`${BASE_URL}/gifs/${id}/flag`, {
+      userId,
+      flag,
+      gifId
+    })
+
+    dispatch({
+      type: FLAG_GIF,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: FLAG_GIF,
+      payload: error
+    })
+  }
+}
+
+const flagGifComment = (id, userId, flag, commentId) => async (
+  dispatch,
+  store
+) => {
+  try {
+    const { flagGifCommentData, specificGifData } = await store().gif
+
+    const error = {
+      gifCommentError: {
+        status: "error",
+        message: "You Already Flag This Comment"
+      }
+    }
+
+    if (flagGifCommentData.data) {
+      const isArticle = specificGifData.data.comments.find(
+        comment => comment.commentId === commentId
+      )
+      if (flagGifCommentData.data.comment === isArticle.comment) {
+        throw error.gifCommentError
+      }
+    }
+    const data = await Request.post(
+      `${BASE_URL}/gifs/${id}/comment/${commentId}/flag`,
+      {
+        userId,
+        flag,
+        commentId
+      }
+    )
+
+    dispatch({
+      type: FLAG_GIF_COMMENT,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: FLAG_GIF_COMMENT,
+      payload: error
+    })
+  }
+}
+
+export { postGif, getGif, deleteGif, commentGifs, flagGif, flagGifComment }
