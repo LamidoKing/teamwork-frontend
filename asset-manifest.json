@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/LamidoKing/teamwork-frontend/static/css/main.24a95c43.chunk.css",
+    "main.js": "/LamidoKing/teamwork-frontend/static/js/main.33d400c1.chunk.js",
+    "main.js.map": "/LamidoKing/teamwork-frontend/static/js/main.33d400c1.chunk.js.map",
+    "runtime-main.js": "/LamidoKing/teamwork-frontend/static/js/runtime-main.4760cc8b.js",
+    "runtime-main.js.map": "/LamidoKing/teamwork-frontend/static/js/runtime-main.4760cc8b.js.map",
+    "static/css/2.d0176e96.chunk.css": "/LamidoKing/teamwork-frontend/static/css/2.d0176e96.chunk.css",
+    "static/js/2.fe8f0151.chunk.js": "/LamidoKing/teamwork-frontend/static/js/2.fe8f0151.chunk.js",
+    "static/js/2.fe8f0151.chunk.js.map": "/LamidoKing/teamwork-frontend/static/js/2.fe8f0151.chunk.js.map",
+    "index.html": "/LamidoKing/teamwork-frontend/index.html",
+    "precache-manifest.fb66952d1f8879508029778e5699d4c8.js": "/LamidoKing/teamwork-frontend/precache-manifest.fb66952d1f8879508029778e5699d4c8.js",
+    "service-worker.js": "/LamidoKing/teamwork-frontend/service-worker.js",
+    "static/css/2.d0176e96.chunk.css.map": "/LamidoKing/teamwork-frontend/static/css/2.d0176e96.chunk.css.map",
+    "static/css/main.24a95c43.chunk.css.map": "/LamidoKing/teamwork-frontend/static/css/main.24a95c43.chunk.css.map",
+    "static/media/image_placeholder.jpg": "/LamidoKing/teamwork-frontend/static/media/image_placeholder.ebe9884b.jpg",
+    "static/media/register.jpeg": "/LamidoKing/teamwork-frontend/static/media/register.9d377b10.jpeg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4760cc8b.js",
+    "static/css/2.d0176e96.chunk.css",
+    "static/js/2.fe8f0151.chunk.js",
+    "static/css/main.24a95c43.chunk.css",
+    "static/js/main.33d400c1.chunk.js"
+  ]
+}
