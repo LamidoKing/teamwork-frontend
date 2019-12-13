@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6e528c0c76152ee0813a64a133bbee0b",
+    "revision": "f93cb65f80e1171f6d9f52f6fc08cd0a",
     "url": "/LamidoKing/teamwork-frontend/index.html"
   },
   {

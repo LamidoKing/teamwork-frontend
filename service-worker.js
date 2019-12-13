@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/LamidoKing/teamwork-frontend/precache-manifest.fb66952d1f8879508029778e5699d4c8.js"
+  "/LamidoKing/teamwork-frontend/precache-manifest.94ffa4b22fdd3d0f9fb76d249f8f5c77.js"
 );
 
 self.addEventListener('message', (event) => {
