@@ -2,6 +2,7 @@
   "name": "teamwork",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://lamidoking.github.io/teamwork-frontend/",
   "dependencies": {
     "@material-ui/core": "^4.6.1",
     "@material-ui/icons": "^4.5.1",
@@ -29,6 +30,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --fix. && flow"
@@ -61,6 +64,7 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "flow-bin": "^0.112.0",
     "flow-typed": "^2.6.2",
+    "gh-pages": "^2.1.1",
     "husky": "^3.1.0",
     "lint-staged": "^9.4.3",
     "prettier": "^1.19.1",

@@ -27,7 +27,6 @@ function Snackbar({ ...props }) {
         key="close"
         aria-label="Close"
         color="inherit"
-        onClick={() => props.closeNotification()}
       >
         <Close className={classes.close} />
       </IconButton>
