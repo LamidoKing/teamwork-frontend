@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "206d5ae23cfa8b753bf83dde986b76c4",
+    "revision": "438e98a1ffe3e191d4821f0fbf9bda48",
     "url": "/teamwork-frontend/index.html"
   },
   {
