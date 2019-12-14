@@ -16,7 +16,7 @@ const hist = history
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hist}>
+    <Router basename={process.env.PUBLIC_URL} history={hist}>
       <App />
     </Router>
   </Provider>,
